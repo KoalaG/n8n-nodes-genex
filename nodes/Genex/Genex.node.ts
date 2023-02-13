@@ -3,6 +3,7 @@ import { INodeTypeDescription, IExecuteFunctions, INodeExecutionData, NodeOperat
 import soap from 'soap';
 
 import * as customer from './actions/customer';
+import * as service from './actions/service';
 import { router } from './actions/router';
 
 export class Genex implements INodeType {
@@ -35,10 +36,12 @@ export class Genex implements INodeType {
 				noDataExpression: true,
 				options: [
 					{ name: 'Customer', value: 'customer' },
+					{ name: 'Service', value: 'service' },
 				]
 			},
 
 			...customer.descriptions,
+			...service.descriptions,
 
 		]
 	}

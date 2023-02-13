@@ -1,15 +1,16 @@
 import type { CustomerProperties } from '../../Interfaces';
 
-export const GetCustomerDetailsDescription: CustomerProperties = [
+
+export const SearchCustomersDescription: CustomerProperties = [
 	{
-		displayName: 'Customer Number',
-		name: 'CustomerNumber',
+		displayName: 'Search String',
+		name: 'SearchString',
 		type: 'string',
 		required: true,
 		displayOptions: {
 			show: {
 				resource: [ 'customer' ],
-				operation: [ 'GetCustomerDetails' ],
+				operation: [ 'SearchCustomers' ],
 			},
 		},
 		default: ''

@@ -8,7 +8,6 @@ export const GetCustomerDetailsDescription: CustomerProperties = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: [ 'customer' ],
 				operation: [ 'GetCustomerDetails' ],
 			},
 		},

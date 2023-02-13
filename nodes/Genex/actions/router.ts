@@ -2,12 +2,9 @@ import type { IExecuteFunctions } from 'n8n-core';
 
 import type { IDataObject, INodeExecutionData } from 'n8n-workflow';
 
-//import * as Charges from './Charges';
-//import * as Configuration from './Configuration';
-//import * as ContactNotes from './ContactNotes';
-//import * as CustomerAccount from './CustomerAccount';
 import * as customer from './customer';
-//import * as CustomerStatements from './CustomerStatements';
+import * as service from './service';
+
 import type { Genex } from './Interfaces';
 
 export async function router(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
@@ -32,13 +29,9 @@ export async function router(this: IExecuteFunctions): Promise<INodeExecutionDat
 		try {
 			if (genex.resource === 'customer') {
 				responseData = await customer[genex.operation].execute.call(this, i);
-			} /*else if (genex.resource === 'message') {
-				responseData = await CustomerService[genex.operation].execute.call(this, i);
-			} else if (genex.resource === 'reaction') {
-				responseData = await CustomerService[genex.operation].execute.call(this, i);
-			} else if (genex.resource === 'user') {
-				responseData = await CustomerService[genex.operation].execute.call(this, i);
-			}*/
+			} else if (genex.resource === 'service') {
+				responseData = await service[genex.operation].execute.call(this, i);
+			};
 
 			const executionData = this.helpers.constructExecutionMetaData(
 				this.helpers.returnJsonArray(responseData),
