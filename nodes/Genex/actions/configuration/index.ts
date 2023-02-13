@@ -1,4 +1,4 @@
-const methods = require('./methods');
+import * as methods from './methods';
 import type { INodeProperties } from 'n8n-workflow';
 
 export const descriptions: INodeProperties[] = [
@@ -13,7 +13,10 @@ export const descriptions: INodeProperties[] = [
 		},
 
 		options: [
-			...Object.keys(methods).map((key) => methods[key].description),
+
+			methods.GetAccountStatuses.option,
+
+			/*
 			{
 				name: 'Get Address Types',
 				value: 'GetAddressTypes',
@@ -182,9 +185,10 @@ export const descriptions: INodeProperties[] = [
 					'Returns a list of service usage types configured for your Genex database instance. This refers to the “Usage Type” field in Service Details section of Services Screen.',
 				action: 'Get usage types',
 			},
+			*/
 		],
 
-		default: 'GetAccountStatuses',
+		default: '',
 	},
 
 ];

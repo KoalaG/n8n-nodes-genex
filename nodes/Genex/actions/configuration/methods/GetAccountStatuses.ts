@@ -10,7 +10,7 @@ const SUBENDPOINT = 'Service';
 const METHOD = 'GetAccountStatuses';
 //const PARSER = transport.parseGeneric();
 
-export const description = {
+export const option = {
 	name: 'Get Account Statuses',
 	value: METHOD,
 	description:

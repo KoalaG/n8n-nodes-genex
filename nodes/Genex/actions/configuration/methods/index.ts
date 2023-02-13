@@ -1,4 +1,1 @@
-
-export default {
-	GetAccountStatuses: require('./GetAccountStatuses'),
-}
+export * as GetAccountStatuses from './GetAccountStatuses'

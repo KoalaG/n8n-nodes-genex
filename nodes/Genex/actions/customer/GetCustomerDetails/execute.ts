@@ -13,7 +13,7 @@ export async function GetCustomerDetails(
 		CustomerNumber: this.getNodeParameter('CustomerNumber', index),
 	}) as any;
 
-	const rawData = responseData['GetCustomerDetailsResult']['CustomerData'];
+	const rawData = responseData['CustomerData'];
 
 	const data = parseCustomer(rawData);
 
