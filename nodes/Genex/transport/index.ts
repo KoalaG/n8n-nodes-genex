@@ -150,7 +150,7 @@ export function parseConnectionList(
 
 	const data = Array.isArray(connectionList) ? connectionList : [connectionList];
 
-	return data.map((connection: any) : ConnectionBaseType => ({
+	return data.filter((e) => e).map((connection: any) : ConnectionBaseType => ({
 		Carrier:						parseValue<string>(connection.Carrier),
 		DateProvisioned:		parseValue<Date>(connection.DateProvisioned, Date),
 		DeclaredDate:				parseValue<Date>(connection.DeclaredDate, Date),
@@ -165,9 +165,9 @@ export function parseServiceList(rawServiceList: any | any[] )
 : ServiceType[]
 {
 
-	const serviceList = Array.isArray(rawServiceList) ? rawServiceList : [rawServiceList];
+	const serviceList = Array.isArray(rawServiceList) ? rawServiceList : [ rawServiceList ];
 
-	return serviceList.map((service: any) : ServiceType => ({
+	return serviceList.filter((e) => e).map((service: any) : ServiceType => ({
 		ServiceNumber:			parseValue<string>(service.ServiceNumber),
 		Name:								parseValue<string>(service.Name),
 		Department:					parseValue<string>(service.Department),

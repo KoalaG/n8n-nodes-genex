@@ -15,9 +15,11 @@ export async function SearchServices(
 	}) as any;
 
 	const rawServiceList = responseData['ServiceList']['Service'];
+	if (rawServiceList === undefined) {
+		const data = parseServiceList(rawServiceList);
+		return this.helpers.returnJsonArray(data);
+	}
 
-	const data = parseServiceList(rawServiceList);
-
-	return this.helpers.returnJsonArray(data);
+	return this.helpers.returnJsonArray([]);
 
 }
