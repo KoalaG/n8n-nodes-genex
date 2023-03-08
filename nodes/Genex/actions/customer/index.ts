@@ -1,9 +1,11 @@
 import * as GetCustomerDetails from './GetCustomerDetails';
 import * as SearchCustomers from './SearchCustomers';
+import * as GetExternalSystemReference from './methods/GetExternalSystemReference';
+import * as SetExternalSystemReference from './methods/SetExternalSystemReference';
 
 import type { INodeProperties } from 'n8n-workflow';
 
-export { GetCustomerDetails, SearchCustomers};
+export { GetCustomerDetails, SearchCustomers, GetExternalSystemReference, SetExternalSystemReference };
 
 export const descriptions: INodeProperties[] = [
 
@@ -31,6 +33,9 @@ export const descriptions: INodeProperties[] = [
 				action: 'Add a user to a channel',
 			},
 
+			GetExternalSystemReference.operation,
+			SetExternalSystemReference.operation,
+
 		],
 
 		default: 'SearchCustomers',
@@ -39,5 +44,7 @@ export const descriptions: INodeProperties[] = [
 
 	...SearchCustomers.description,
 	...GetCustomerDetails.description,
+	...GetExternalSystemReference.properties,
+	...SetExternalSystemReference.properties,
 
 ];

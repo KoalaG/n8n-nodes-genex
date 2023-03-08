@@ -14,12 +14,14 @@ export async function SearchServices(
 		IncludeReleased: this.getNodeParameter('IncludeReleased', index),
 	}) as any;
 
+	console.log({ responseData: responseData['ServiceList']['Service'] });
+
 	const rawServiceList = responseData['ServiceList']['Service'];
 	if (rawServiceList === undefined) {
-		const data = parseServiceList(rawServiceList);
-		return this.helpers.returnJsonArray(data);
+		return this.helpers.returnJsonArray([]);
 	}
 
-	return this.helpers.returnJsonArray([]);
+	const data = parseServiceList(rawServiceList);
+	return this.helpers.returnJsonArray(data);
 
 }

@@ -5,7 +5,7 @@ import type {
 } from 'n8n-workflow';
 
 import * as xmljs from 'xml-js';
-import { AddressType, APIResponse, CompanyType, ConnectionBaseType, ContactAddressType, CreditDetailsEmploymentType, CustomerAccountDetailType, CustomerAuthorisationType, CustomerBankAccountType, CustomerBillOptionsType, CustomerCreditCardType, CustomerCreditDetailsType, CustomerFlagType, CustomerMarketingType, CustomerReferralType, CustomerTeleMarketingType, CustomerType, DeliveryMethodType, PrimaryContactType, ServiceType } from '../actions/Interfaces';
+import { AddressType, APIResponse, CompanyType, ConnectionBaseType, ContactAddressType, CreditDetailsEmploymentType, CustomerAccountDetailType, CustomerAuthorisationType, CustomerBankAccountType, CustomerBillOptionsType, CustomerCreditCardType, CustomerCreditDetailsType, CustomerFlagType, CustomerMarketingType, CustomerReferralType, CustomerTeleMarketingType, CustomerType, DeliveryMethodType, PrimaryContactType, ServiceType, SystemReferenceType } from '../actions/Interfaces';
 
 /**
  * Make an API request to Mattermost
@@ -50,7 +50,7 @@ export async function apiRequest(
 		headers: {
 			'SOAPAction': `http://genexapi.billing.com.au/${endpoint}/${method}`,
 			'Content-Type': 'text/xml; charset=utf-8',
-		},
+		}
 	};
 
 	try {
@@ -117,7 +117,7 @@ export function parseValue<T>(
 	}
 
 	if (value['_text'] === undefined) {
-		return undefined as any;
+		return null as any;
 	}
 
 	return typeOf(value['_text']) as any;
@@ -125,6 +125,9 @@ export function parseValue<T>(
 }
 
 export function parseAddress(address: any) : AddressType | ContactAddressType {
+	if (address === undefined) {
+		return {} as AddressType | ContactAddressType;
+	}
 	return {
 		State:							parseValue<string>(address.State),
 		Postcode:						parseValue<string>(address.Postcode),
@@ -165,6 +168,10 @@ export function parseServiceList(rawServiceList: any | any[] )
 : ServiceType[]
 {
 
+	if (rawServiceList && rawServiceList.ServiceList && rawServiceList.ServiceList.Service) {
+		rawServiceList = rawServiceList.ServiceList.Service;
+	}
+
 	const serviceList = Array.isArray(rawServiceList) ? rawServiceList : [ rawServiceList ];
 
 	return serviceList.filter((e) => e).map((service: any) : ServiceType => ({
@@ -190,7 +197,7 @@ export function parseServiceList(rawServiceList: any | any[] )
 		CustomerNumber:			parseValue<number>(service.CustomerNumber, Number),
 		SequenceNumber:			parseValue<number>(service.SequenceNumber, Number),
 		ReleasedDate:				parseValue<Date>(service.ReleasedDate, Date),
-		ServiceConnections: parseConnectionList(service.ServiceConnections.ConnectionBase),
+		ServiceConnections: service.ServiceConnections ? parseConnectionList(service.ServiceConnections.ConnectionBase) : [],
 	}));
 
 }
@@ -297,12 +304,12 @@ export function parseCustomerFlags(rawFlags: any) : CustomerFlagType {
 
 export function parseCustomerAccountDetail(rawCustomerDetail: any) : CustomerAccountDetailType {
 	return {
-		Notes:									parseValue<string>(rawCustomerDetail.Notes),
-		ContractStartDate:				parseValue<Date>(rawCustomerDetail.ContractStartDate, Date),
-		ContractTerm:							parseValue<number>(rawCustomerDetail.ContractTerm, Number),
-		AccountStatus:						parseValue<string>(rawCustomerDetail.AccountStatus),
-		CreditCetegory:						parseValue<string>(rawCustomerDetail.CreditCetegory),
-		CeilingAmount:						parseValue<number>(rawCustomerDetail.CeilingAmount, Number),
+		Notes:							parseValue<string>(rawCustomerDetail.Notes),
+		ContractStartDate:	parseValue<Date>(rawCustomerDetail.ContractStartDate, Date),
+		ContractTerm:				parseValue<number>(rawCustomerDetail.ContractTerm, Number),
+		AccountStatus:			parseValue<string>(rawCustomerDetail.AccountStatus),
+		CreditCategory:			parseValue<string>(rawCustomerDetail.CreditCategory),
+		CeilingAmount:			parseValue<number>(rawCustomerDetail.CeilingAmount, Number),
 	}
 }
 
@@ -398,4 +405,14 @@ export function parseCustomerList(rawCustomerList: any | any[]) : CustomerType[]
 	if (!rawCustomerList) return [];
 	if (!Array.isArray(rawCustomerList)) rawCustomerList = [rawCustomerList];
 	return rawCustomerList.map(parseCustomer);
+}
+
+export function parseSystemReference(rawSystemReference: any)
+: SystemReferenceType | null {
+	if (!rawSystemReference) return null;
+	return {
+		CustomerNumber: parseValue<number>(rawSystemReference.CustomerNumber, Number),
+		ExternalSystem: parseValue<string>(rawSystemReference.ExternalSystem),
+		ExternalReference: parseValue<string>(rawSystemReference.ExternalReference),
+	}
 }

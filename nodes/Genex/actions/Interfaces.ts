@@ -1,11 +1,18 @@
 import type { AllEntities, Entity, PropertiesOf } from 'n8n-workflow';
 
 type GenexMap = {
-	customer: 'SearchCustomers' | 'GetCustomerDetails';
-	service: 'SearchServices';
+	customer:
+		'SearchCustomers' | 'GetCustomerDetails' |
+		'SetExternalSystemReference' | 'GetExternalSystemReference';
+	service: 'SearchServices' | 'GetCustomerServices';
 	configuration:
-		'GetAccountStatuses' | 'GetAddressTypes' | 'GetAuthorisationTypes' | 'GetCarriers' | 'GetChargeTypes' | 'GetContactNoteStatuses' | 'GetContactNoteTypes' | 'GetCountryTypes' | 'GetCreditCardAuthorityTypes' | 'GetCreditCardTypes' | 'GetCustomerTypes' | 'GetCycles' | 'GetDirectDebitMethods' | 'GetDirectDebitProcessOptions'
-		| 'GetFlagLabels' | 'GetGenexUsers' | 'GetGroups' | 'GetOnceOffChargeTariffs' | 'GetProvisioningStatuses' | 'GetRatePlans' | 'GetStateTypes' | 'GetStreetTypeSuffixes' | 'GetStreetTypes' | 'GetTransactionTypes' | 'GetUsageTypes'
+		'GetAccountStatuses' | 'GetAddressTypes' | 'GetAuthorisationTypes' | 'GetCarriers'
+		| 'GetChargeTypes' | 'GetContactNoteStatuses' | 'GetContactNoteTypes' | 'GetCountryTypes'
+		| 'GetCreditCardAuthorityTypes' | 'GetCreditCardTypes' | 'GetCustomerTypes' | 'GetCycles'
+		| 'GetDirectDebitMethods' | 'GetDirectDebitProcessOptions' | 'GetFlagLabels'
+		| 'GetGenexUsers' | 'GetGroups' | 'GetOnceOffChargeTariffs' | 'GetProvisioningStatuses'
+		| 'GetRatePlans' | 'GetStateTypes' | 'GetStreetTypeSuffixes' | 'GetStreetTypes'
+		| 'GetTransactionTypes' | 'GetUsageTypes'
 };
 
 export type Genex = AllEntities<GenexMap>;
@@ -136,7 +143,7 @@ export type CustomerAccountDetailType = {
 	ContractStartDate: Date,
 	ContractTerm: number,
 	AccountStatus: string,
-	CreditCetegory: string,
+	CreditCategory: string,
 	CeilingAmount: number,
 }
 
@@ -252,4 +259,10 @@ export type ServiceType = {
 	CustomerNumber: number,
 	SequenceNumber: number,
 	ReleasedDate: Date,
+}
+
+export type SystemReferenceType = {
+	CustomerNumber: number,
+	ExternalSystem: string,
+	ExternalReference: string | null
 }
