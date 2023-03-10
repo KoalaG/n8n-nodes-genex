@@ -15,7 +15,7 @@ export async function apiRequest(
 	endpoint: string,
 	subEndpoint: string,
 	method: string,
-	parameters: {},
+	parameters: {}
 ) {
 
 	const credentials = await this.getCredentials('genexApi');
@@ -57,6 +57,18 @@ export async function apiRequest(
 
 		const rawData = await this.helpers.httpRequest.call(this, options);
 		const jsData = xmljs.xml2js(rawData, {compact: true}) as APIResponse;
+
+		// Make sure response status is OK
+		if (jsData['soap:Envelope']['soap:Body']['ResponseStatusCode']['_text'] !== '200') {
+			throw new Error(jsData['soap:Envelope']['soap:Body']['ResponseStatusDescription']['_text']);
+		}
+
+		// Attempt to parse response type if given
+		Object.keys(jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`])
+			.filter(key => key !== 'ResponseStatusCode')
+			.filter(key => key !== 'ResponseStatusDescription')
+			.forEach(key => console.log(typeof [key]))
+
 		return jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`];
 
 	} catch (err) {

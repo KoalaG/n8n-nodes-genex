@@ -2,6 +2,7 @@
 import { INodeTypeDescription, IExecuteFunctions, INodeExecutionData, NodeOperationError, IDataObject, INodeType, NodeExecutionWithMetadata } from 'n8n-workflow';
 import soap from 'soap';
 
+import * as configuration from './actions/configuration';
 import * as customer from './actions/customer';
 import * as service from './actions/service';
 import { router } from './actions/router';
@@ -35,11 +36,13 @@ export class Genex implements INodeType {
 				default: 'customer',
 				noDataExpression: true,
 				options: [
+					{ name: 'Configuration', value: 'configuration' },
 					{ name: 'Customer', value: 'customer' },
 					{ name: 'Service', value: 'service' },
 				]
 			},
 
+			...configuration.descriptions,
 			...customer.descriptions,
 			...service.descriptions,
 

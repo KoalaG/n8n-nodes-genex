@@ -22,7 +22,7 @@ export const properties: ConfigurationProperties = [];
 
 export async function execute(
 	this: IExecuteFunctions,
-	// index: number,
+	index: number,
 ): Promise<INodeExecutionData[]> {
 
 	const responseData = await transport.apiRequest.call(this, ENDPOINT, SUBENDPOINT, METHOD, {

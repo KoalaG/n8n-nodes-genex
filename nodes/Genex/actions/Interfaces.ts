@@ -1,10 +1,6 @@
 import type { AllEntities, Entity, PropertiesOf } from 'n8n-workflow';
 
 type GenexMap = {
-	customer:
-		'SearchCustomers' | 'GetCustomerDetails' |
-		'SetExternalSystemReference' | 'GetExternalSystemReference';
-	service: 'SearchServices' | 'GetCustomerServices';
 	configuration:
 		'GetAccountStatuses' | 'GetAddressTypes' | 'GetAuthorisationTypes' | 'GetCarriers'
 		| 'GetChargeTypes' | 'GetContactNoteStatuses' | 'GetContactNoteTypes' | 'GetCountryTypes'
@@ -12,18 +8,36 @@ type GenexMap = {
 		| 'GetDirectDebitMethods' | 'GetDirectDebitProcessOptions' | 'GetFlagLabels'
 		| 'GetGenexUsers' | 'GetGroups' | 'GetOnceOffChargeTariffs' | 'GetProvisioningStatuses'
 		| 'GetRatePlans' | 'GetStateTypes' | 'GetStreetTypeSuffixes' | 'GetStreetTypes'
-		| 'GetTransactionTypes' | 'GetUsageTypes'
+		| 'GetTransactionTypes' | 'GetUsageTypes';
+	connection: any;
+	customer:
+		'SearchCustomers' | 'GetCustomerDetails' |
+		'SetExternalSystemReference' | 'GetExternalSystemReference';
+	note: any;
+	service: 'SearchServices' | 'GetCustomerServices';
+	statement: any;
+	transaction:
+		'AddTransaction' | 'GetCustomerTransactions';
 };
 
 export type Genex = AllEntities<GenexMap>;
 
-export type GenexCustomer = Entity<GenexMap, 'customer'>;
-export type GenexService = Entity<GenexMap, 'service'>;
-export type GenexConfiguration = Entity<GenexMap, 'configuration'>;
 
-export type CustomerProperties = PropertiesOf<GenexCustomer>;
-export type ServiceProperties = PropertiesOf<GenexService>;
+export type GenexConfiguration = Entity<GenexMap, 'configuration'>;
+export type GenexConnection = Entity<GenexMap, 'connection'>;
+export type GenexCustomer = Entity<GenexMap, 'customer'>;
+export type GenexNote = Entity<GenexMap, 'note'>;
+export type GenexService = Entity<GenexMap, 'service'>;
+export type GenexStatement = Entity<GenexMap, 'statement'>;
+export type GenexTransaction = Entity<GenexMap, 'transaction'>;
+
 export type ConfigurationProperties = PropertiesOf<GenexConfiguration>;
+export type ConnectionProperties = PropertiesOf<GenexConnection>;
+export type CustomerProperties = PropertiesOf<GenexCustomer>;
+export type NoteProperties = PropertiesOf<GenexNote>;
+export type ServiceProperties = PropertiesOf<GenexService>;
+export type StatementProperties = PropertiesOf<GenexStatement>;
+export type TransactionProperties = PropertiesOf<GenexTransaction>;
 
 export type APIResponse = {
 	'soap:Envelope': {

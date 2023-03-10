@@ -2,8 +2,13 @@ import type { IExecuteFunctions } from 'n8n-core';
 
 import type { IDataObject, INodeExecutionData } from 'n8n-workflow';
 
+import * as configuration from './configuration';
+//import * as connection from './connection';
 import * as customer from './customer';
+//import * as note from './note';
 import * as service from './service';
+//import * as statement from './statement';
+import * as transaction from './transaction';
 
 import type { Genex } from './Interfaces';
 
@@ -27,10 +32,34 @@ export async function router(this: IExecuteFunctions): Promise<INodeExecutionDat
 		} as Genex;
 
 		try {
+			if (genex.resource === 'configuration') {
+				responseData = await configuration.methods[genex.operation].execute.call(this, i);
+			} else
+
+			//if (genex.resource === 'connection') {
+			//	responseData = await connection.methods[genex.operation].execute.call(this, i);
+			//} else
+
 			if (genex.resource === 'customer') {
 				responseData = await customer[genex.operation].execute.call(this, i);
-			} else if (genex.resource === 'service') {
-				responseData = await service[genex.operation].execute.call(this, i);
+			} else
+
+			//if (genex.resource === 'note') {
+				//responseData = await note.methods[genex.operation].execute.call(this, i);
+			//} else
+
+			//if (genex.resource === 'statement') {
+				//responseData = await statement.methods[genex.operation].execute.call(this, i);
+			//} else
+
+			if (genex.resource === 'service') {
+				responseData = await service.methods[genex.operation].execute.call(this, i);
+			} else
+
+			if (genex.resource === 'transaction') {
+				responseData = await transaction.methods[genex.operation].execute.call(this, i);
+			} else {
+				throw new Error('Invalid Resource');
 			};
 
 			const executionData = this.helpers.constructExecutionMetaData(

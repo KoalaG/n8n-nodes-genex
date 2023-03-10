@@ -1,9 +1,7 @@
 import * as methods from './methods';
-export * from './methods';
-import * as SearchServices from './SearchServices';
 import type { INodeProperties } from 'n8n-workflow';
 
-export { SearchServices };
+export { methods };
 
 
 export const descriptions: INodeProperties[] = [
@@ -25,6 +23,7 @@ export const descriptions: INodeProperties[] = [
 				action: 'Search for a service',
 			},
 
+			methods.SearchServices.operation,
 			methods.GetCustomerServices.operation,
 
 		],
@@ -33,7 +32,7 @@ export const descriptions: INodeProperties[] = [
 
 	},
 
-	...SearchServices.description,
+	...methods.SearchServices.properties,
 	...methods.GetCustomerServices.properties,
 
 ];
