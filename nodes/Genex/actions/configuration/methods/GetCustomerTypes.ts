@@ -1,6 +1,6 @@
 
 import type { IExecuteFunctions } from 'n8n-core';
-import type { IDataObject, INodeExecutionData } from 'n8n-workflow';
+import type { INodeExecutionData } from 'n8n-workflow';
 import * as transport from '../../../transport';
 
 import type { ConfigurationProperties } from '../../Interfaces';
@@ -26,17 +26,9 @@ export async function execute(
 	// index: number,
 ): Promise<INodeExecutionData[]> {
 
-
-	console.log(ENDPOINT, SUBENDPOINT, METHOD);
-
 	const responseData = await transport.apiRequest.call(this, ENDPOINT, SUBENDPOINT, METHOD, {
 		// SearchString: this.getNodeParameter('SearchString', index),
 	});
 
-	console.log(responseData);
-
-	const rawData = responseData['CustomerTypeData'];
-	const data = rawData as IDataObject;
-
-	return this.helpers.returnJsonArray(data);
+	return this.helpers.returnJsonArray(responseData);
 }

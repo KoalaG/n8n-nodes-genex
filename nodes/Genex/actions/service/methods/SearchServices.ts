@@ -8,7 +8,6 @@ import type { ServiceProperties } from '../../Interfaces';
 const ENDPOINT = 'Customer';
 const SUBENDPOINT = 'Service';
 const METHOD = 'SearchServices';
-const PARSER = transport.parseServiceList;
 
 export const operation: INodePropertyOptions = {
 	name: 'Search Services',
@@ -60,12 +59,8 @@ export async function execute(
 
 	// Check if results were found
 	const rawServiceList = responseData['ServiceList']['Service'];
-	if (rawServiceList === undefined) {
-		return this.helpers.returnJsonArray([]);
-	}
 
 	// Parse results and return
-	const data = PARSER(rawServiceList);
-	return this.helpers.returnJsonArray(data);
+	return this.helpers.returnJsonArray(rawServiceList);
 
 }

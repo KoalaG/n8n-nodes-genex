@@ -1,6 +1,6 @@
 
 import type { IExecuteFunctions } from 'n8n-core';
-import type { IDataObject, INodeExecutionData } from 'n8n-workflow';
+import type { INodeExecutionData } from 'n8n-workflow';
 import * as transport from '../../../transport';
 
 import type { ConfigurationProperties } from '../../Interfaces';
@@ -29,8 +29,5 @@ export async function execute(
 		// SearchString: this.getNodeParameter('SearchString', index),
 	});
 
-	const rawData = responseData['soap:Envelope']['soap:Body'];
-	const data = rawData as IDataObject;
-
-	return this.helpers.returnJsonArray(data);
+	return this.helpers.returnJsonArray(responseData);
 }

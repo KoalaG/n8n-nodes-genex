@@ -8,7 +8,6 @@ import type { CustomerProperties } from '../../Interfaces';
 const ENDPOINT = 'Customer';
 const SUBENDPOINT = 'Service';
 const METHOD = 'SetExternalSystemReference';
-const PARSER = transport.parseGeneric;
 
 export const operation: INodePropertyOptions = {
 	name: 'Set External System Reference',
@@ -53,13 +52,13 @@ export async function execute(
 ): Promise<INodeExecutionData[]> {
 
 	const responseData = await transport.apiRequest.call(this, ENDPOINT, SUBENDPOINT, METHOD, {
-		Reference: {
+		reference: {
 			CustomerNumber: this.getNodeParameter('CustomerNumber', index),
 			ExternalSystem: this.getNodeParameter('ExternalSystem', index),
 			ExternalReference: this.getNodeParameter('ExternalReference', index) || null,
 		}
 	});
 
-	return this.helpers.returnJsonArray(PARSER(responseData));
+	return this.helpers.returnJsonArray(responseData);
 
 }

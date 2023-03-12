@@ -1,8 +1,8 @@
 import type { IExecuteFunctions } from 'n8n-core';
 
-import type { IDataObject, INodeExecutionData } from 'n8n-workflow';
+import type { INodeExecutionData } from 'n8n-workflow';
 
-import { apiRequest, parseCustomer } from '../../../transport';
+import { apiRequest } from '../../../transport';
 
 export async function GetCustomerDetails(
 	this: IExecuteFunctions,
@@ -13,9 +13,7 @@ export async function GetCustomerDetails(
 		CustomerNumber: this.getNodeParameter('CustomerNumber', index),
 	}) as any;
 
-	const rawData = responseData['CustomerData'];
 
-	const data = parseCustomer(rawData);
+	return this.helpers.returnJsonArray(responseData);
 
-	return this.helpers.returnJsonArray(data as IDataObject);
 }

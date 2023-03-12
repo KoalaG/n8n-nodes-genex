@@ -1,6 +1,6 @@
 import type { IExecuteFunctions } from 'n8n-core';
-import type { IDataObject, INodeExecutionData } from 'n8n-workflow';
-import { apiRequest, parseCustomerList as PARSER } from '../../../transport';
+import type { INodeExecutionData } from 'n8n-workflow';
+import { apiRequest } from '../../../transport';
 
 const ENDPOINT = 'Customer';
 const SUBENDPOINT = 'Service';
@@ -15,8 +15,5 @@ export async function SearchCustomers(
 		SearchString: this.getNodeParameter('SearchString', index),
 	});
 
-	const rawData = responseData['soap:Envelope']['soap:Body'];
-	const data = PARSER(rawData['CustomerList']['Customer']) as IDataObject[];
-
-	return this.helpers.returnJsonArray(data);
+	return this.helpers.returnJsonArray(responseData);
 }

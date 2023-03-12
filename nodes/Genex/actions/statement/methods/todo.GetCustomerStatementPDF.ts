@@ -8,7 +8,6 @@ import type { ServiceProperties } from '../../Interfaces';
 const ENDPOINT = 'Customer';
 const SUBENDPOINT = 'Service';
 const METHOD = 'GetCustomerServices';
-const PARSER = transport.parseServiceList;
 
 export const operation: INodePropertyOptions = {
 	name: 'Get Customer Services',
@@ -39,6 +38,6 @@ export async function execute(
 		CustomerNumber: this.getNodeParameter('CustomerNumber', index),
 	});
 
-	return this.helpers.returnJsonArray(PARSER(responseData));
+	return this.helpers.returnJsonArray(responseData);
 
 }

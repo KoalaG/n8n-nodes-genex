@@ -1,6 +1,6 @@
 
 import type { IExecuteFunctions } from 'n8n-core';
-import type { IDataObject, INodeExecutionData, INodePropertyOptions } from 'n8n-workflow';
+import type { INodeExecutionData, INodePropertyOptions } from 'n8n-workflow';
 import * as transport from '../../../transport';
 
 import type { CustomerProperties } from '../../Interfaces';
@@ -8,7 +8,6 @@ import type { CustomerProperties } from '../../Interfaces';
 const ENDPOINT = 'Customer';
 const SUBENDPOINT = 'Service';
 const METHOD = 'GetExternalSystemReference';
-const PARSER = transport.parseSystemReference;
 
 export const operation: INodePropertyOptions = {
 	name: 'Get External System Reference',
@@ -49,8 +48,7 @@ export async function execute(
 		System: this.getNodeParameter('System', index),
 	});
 
-		return this.helpers.returnJsonArray([ PARSER(responseData.SystemReference) as IDataObject ]);
 
-
+	return this.helpers.returnJsonArray(responseData);
 
 }
