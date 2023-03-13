@@ -337,7 +337,7 @@ export function parseCustomer(rawCustomer: any) : CustomerType {
 	}
 }
 
-export function parseCustomerList(rawCustomerList: any | any[]) : CustomerType[] {
+export function parseCustomerData(rawCustomerList: any | any[]) : CustomerType[] {
 	if (!rawCustomerList) return [];
 	if (!Array.isArray(rawCustomerList)) rawCustomerList = [rawCustomerList];
 	return rawCustomerList.map(parseCustomer);

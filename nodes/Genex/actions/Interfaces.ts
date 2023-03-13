@@ -14,7 +14,16 @@ type GenexMap = {
 		'SearchCustomers' | 'GetCustomerDetails' |
 		'SetExternalSystemReference' | 'GetExternalSystemReference';
 	note: any;
-	service: 'SearchServices' | 'GetCustomerServices';
+	service:
+		'SearchServices' | 'GetCustomerServices' | 'ReleaseService'
+		| 'DisconnectCarrierConnection' | 'DisconnectCarrierConnectionWithReason'
+		| 'UpdateServiceRatePlan' | 'UpdateServiceName' | 'UpdateServiceExtraInformation'
+		| 'UpdateServiceExternalReference' | 'UpdateServiceDivision' | 'UpdateServiceDepartment'
+		| 'UpdateServiceContract' | 'UpdateServiceAddress' | 'UpdateCustomerRatePlan'
+		| 'SetServiceDeclaredDate' | 'SetCarrierConnectionDeclaredDate'
+		| 'ReleaseServiceWithDisconnectionReason' | 'ReconnectService' | 'ReconnectCarrierConnection'
+		| 'DisconnectServiceWithDisconnectionReason' | 'DisconnectService'
+		;
 	statement: any;
 	transaction:
 		'AddTransaction' | 'GetCustomerTransactions';

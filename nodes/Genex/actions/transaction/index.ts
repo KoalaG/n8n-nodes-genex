@@ -1,9 +1,6 @@
 import * as methods from './methods';
-//export * from './methods';
-//import * as SearchServices from './SearchServices';
+export * from './methods';
 import type { INodeProperties } from 'n8n-workflow';
-
-export { methods }
 
 export const descriptions: INodeProperties[] = [
 
@@ -13,26 +10,20 @@ export const descriptions: INodeProperties[] = [
 		type: 'options',
 		noDataExpression: true,
 		displayOptions: {
-			show: { resource: [ 'service' ], },
+			show: { resource: [ 'transaction' ], },
 		},
 		options: [
 
-			{
-				name: 'Search',
-				value: 'SearchServices',
-				description: 'Search for a service',
-				action: 'Search for a service',
-			},
-
-			//methods.GetCustomerServices.operation,
+			methods.AddTransaction.operation,
+			methods.GetCustomerTransactions.operation,
 
 		],
 
-		default: 'SearchServices',
+		default: '',
 
 	},
 
-	//...SearchServices.description,
-	//...methods.GetCustomerServices.properties,
+	...methods.AddTransaction.properties,
+	...methods.GetCustomerTransactions.properties,
 
 ];

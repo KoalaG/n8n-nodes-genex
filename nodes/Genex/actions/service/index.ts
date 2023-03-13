@@ -16,23 +16,21 @@ export const descriptions: INodeProperties[] = [
 		},
 		options: [
 
-			{
-				name: 'Search',
-				value: 'SearchServices',
-				description: 'Search for a service',
-				action: 'Search for a service',
-			},
-
 			methods.SearchServices.operation,
 			methods.GetCustomerServices.operation,
+			methods.UpdateServiceRatePlan.operation,
+			methods.ReleaseService.operation,
+			methods.DisconnectCarrierConnection.operation,
 
 		],
 
-		default: 'SearchServices',
+		default: '',
 
 	},
 
 	...methods.SearchServices.properties,
 	...methods.GetCustomerServices.properties,
-
+	...methods.UpdateServiceRatePlan.properties,
+	...methods.ReleaseService.properties,
+	...methods.DisconnectCarrierConnection.properties,
 ];

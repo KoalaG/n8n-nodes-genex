@@ -10,11 +10,10 @@ const SUBENDPOINT = 'Service';
 const METHOD = 'GetCustomerTransactions';
 
 export const operation: INodePropertyOptions = {
-	name: 'Get Customer Services',
+	name: 'Get Customer Transactions',
 	value: METHOD,
-	description:
-		'This web method is used to get a list of all services associated with a customer/account. The response lists all services (including released) on the account and all associated connections for each service.',
-	action: 'Get customer services',
+	description: 'Retrieve list of historical transactions for a customer',
+	action: 'Get customer transactions',
 };
 
 export const properties: TransactionProperties = [

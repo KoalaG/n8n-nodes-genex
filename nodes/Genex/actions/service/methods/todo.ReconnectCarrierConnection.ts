@@ -3,11 +3,11 @@ import type { IExecuteFunctions } from 'n8n-core';
 import type { INodeExecutionData, INodePropertyOptions } from 'n8n-workflow';
 import * as transport from '../../../transport';
 
-import type { CustomerProperties } from '../../Interfaces';
+import type { ServiceProperties } from '../../Interfaces';
 
 const ENDPOINT = 'Customer';
 const SUBENDPOINT = 'Service';
-const METHOD = 'GetExternalSystemReference';
+const METHOD = 'ReconnectCarrierConnection';
 
 export const operation: INodePropertyOptions = {
 	name: 'Get External System Reference',
@@ -17,7 +17,7 @@ export const operation: INodePropertyOptions = {
 	action: 'Get external system reference',
 };
 
-export const properties: CustomerProperties = [
+export const properties: ServiceProperties = [
 	{
 		displayName: 'Customer Number',
 		name: 'CustomerNumber',

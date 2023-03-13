@@ -31,7 +31,6 @@ export const properties: ServiceProperties = [
 		},
 		default: ''
 	},
-
 	{
 		displayName: 'Include Released',
 		description: 'Whether response should include released services. If the use case is checking a service number before new service, then this flag should be set to false to identify if there is any active service with same identifier. Ex. False – only include non-released service.',
