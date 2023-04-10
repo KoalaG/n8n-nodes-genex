@@ -1,6 +1,7 @@
 import * as methods from './methods';
-export * from './methods';
 import type { INodeProperties } from 'n8n-workflow';
+
+export { methods };
 
 export const descriptions: INodeProperties[] = [
 

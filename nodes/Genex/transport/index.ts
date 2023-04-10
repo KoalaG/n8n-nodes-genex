@@ -7,7 +7,7 @@ import type {
 } from 'n8n-workflow';
 
 import * as xmljs from 'xml-js';
-import { APIResponse } from '../actions/Interfaces';
+import { GenexAPIResponse, GenexResultType } from './interfaces';
 
 /**
  * Make an API request to Mattermost
@@ -57,27 +57,33 @@ export async function apiRequest(
 	};
 
 	let rawData: any = null;
-	let jsData: any = null;
+	let jsData: GenexAPIResponse = null;
 
 	try {
 
 		rawData = await this.helpers.httpRequest.call(this, options);
-		jsData = xmljs.xml2js(rawData, {compact: true}) as APIResponse;
+		jsData = xmljs.xml2js(rawData, {compact: true}) as GenexAPIResponse;
+
+		if (!jsData) {
+			throw new Error('No response data');
+		}
 
 		// Make sure response status is OK
 		if (jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`]['ResponseStatusCode']['_text'] !== '200') {
 			throw new Error(jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`]['ResponseStatusDescription']['_text']);
 		}
 
+		const methodResult = jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`];
+
 		// Attempt to parse response type if given
-		const responseType = Object.keys(jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`])
+		const responseType = Object.keys(methodResult)
 			.filter(key => key !== 'ResponseStatusCode')
-			.filter(key => key !== 'ResponseStatusDescription')[0];
+			.filter(key => key !== 'ResponseStatusDescription')[0] as keyof GenexResultType;
 
 		if (responseType) {
 			const fnName = `parse${responseType}`;
 			if ((parseFunctions as any)[fnName]) {
-				return (parseFunctions as any)[fnName](jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`][responseType]) as IDataObject | IDataObject[];
+				return (parseFunctions as any)[fnName](methodResult[responseType]) as IDataObject | IDataObject[];
 			} else {
 				throw new Error(`No parse function found for ${responseType}`);
 			}
@@ -89,8 +95,8 @@ export async function apiRequest(
 		console.log('DEBUG: SOAP REQUEST:', soapXML);
 		console.log('DEBUG: SOAP RESPONSE:', rawData);
 		console.log('DEBUG: JSON RESPONSE:', jsData);
-		console.log('DEBUG: JSON SOAP BODY', jsData['soap:Envelope']['soap:Body']);
-		console.log('DEBUG: JSON METHOD RESULT', jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`]);
+		console.log('DEBUG: JSON SOAP BODY', jsData ? jsData['soap:Envelope']['soap:Body'] : null);
+		console.log('DEBUG: JSON METHOD RESULT', jsData ? jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`] : null);
 		console.log(err);
 		throw err;
 	}

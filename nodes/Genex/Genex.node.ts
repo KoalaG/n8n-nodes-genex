@@ -3,9 +3,11 @@ import { INodeTypeDescription, IExecuteFunctions, INodeExecutionData, NodeOperat
 import soap from 'soap';
 
 import * as configuration from './actions/configuration';
+import * as connection from './actions/connection';
 import * as customer from './actions/customer';
 import * as service from './actions/service';
 import { router } from './actions/router';
+import { getServiceDisconnectionReasons, getCarriers } from './methods/loadOptions';
 
 export class Genex implements INodeType {
 
@@ -37,17 +39,26 @@ export class Genex implements INodeType {
 				noDataExpression: true,
 				options: [
 					{ name: 'Configuration', value: 'configuration' },
+					{ name: 'Connection', value: 'connection' },
 					{ name: 'Customer', value: 'customer' },
 					{ name: 'Service', value: 'service' },
 				]
 			},
 
 			...configuration.descriptions,
+			...connection.descriptions,
 			...customer.descriptions,
 			...service.descriptions,
 
 		]
 	}
+
+	methods = {
+		loadOptions: {
+			getServiceDisconnectionReasons,
+			getCarriers,
+		}
+	};
 
 	execute(this: IExecuteFunctions): Promise<INodeExecutionData[][] | NodeExecutionWithMetadata[][] | null> {
 		return router.call(this);

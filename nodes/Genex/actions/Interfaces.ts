@@ -16,12 +16,11 @@ type GenexMap = {
 	note: any;
 	service:
 		'SearchServices' | 'GetCustomerServices' | 'ReleaseService'
-		| 'DisconnectCarrierConnection' | 'DisconnectCarrierConnectionWithReason'
 		| 'UpdateServiceRatePlan' | 'UpdateServiceName' | 'UpdateServiceExtraInformation'
 		| 'UpdateServiceExternalReference' | 'UpdateServiceDivision' | 'UpdateServiceDepartment'
-		| 'UpdateServiceContract' | 'UpdateServiceAddress' | 'UpdateCustomerRatePlan'
-		| 'SetServiceDeclaredDate' | 'SetCarrierConnectionDeclaredDate'
-		| 'ReleaseServiceWithDisconnectionReason' | 'ReconnectService' | 'ReconnectCarrierConnection'
+		| 'UpdateServiceContract' | 'UpdateServiceAddress'
+		| 'SetServiceDeclaredDate'
+		| 'ReleaseServiceWithDisconnectionReason' | 'ReconnectService'
 		| 'DisconnectServiceWithDisconnectionReason' | 'DisconnectService'
 		;
 	statement: any;
@@ -48,16 +47,6 @@ export type ServiceProperties = PropertiesOf<GenexService>;
 export type StatementProperties = PropertiesOf<GenexStatement>;
 export type TransactionProperties = PropertiesOf<GenexTransaction>;
 
-export type APIResponse = {
-	'soap:Envelope': {
-		'soap:Body': {
-			SearchCustomersResponse: { SearchCustomersResult: any },
-			GetCustomerDetailsResponse: { GetCustomerDetailsResult: any },
-			SearchServicesResponse: { SearchServicesResult: any },
-			[response: string]: { [result: string]: any },
-		}
-	}
-}
 
 export type PrimaryContactType = {
 	Salutation: string,
@@ -288,4 +277,19 @@ export type SystemReferenceType = {
 	CustomerNumber: number,
 	ExternalSystem: string,
 	ExternalReference: string | null
+}
+
+export type ServiceDisconnectionReasonsType = {
+	Code: string,
+	Reason: string,
+}
+
+export type AccountStatusType = {
+	Code: string,
+	Description: string,
+}
+
+export type CarrierType = {
+	Code: string,
+	Name: string,
 }

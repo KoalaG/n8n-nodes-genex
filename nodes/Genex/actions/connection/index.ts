@@ -1,10 +1,7 @@
-//import * as methods from './methods';
-//export * from './methods';
-//import * as SearchServices from './SearchServices';
+import * as methods from './methods';
 import type { INodeProperties } from 'n8n-workflow';
 
-//export { SearchServices };
-
+export { methods };
 
 export const descriptions: INodeProperties[] = [
 
@@ -14,26 +11,22 @@ export const descriptions: INodeProperties[] = [
 		type: 'options',
 		noDataExpression: true,
 		displayOptions: {
-			show: { resource: [ 'service' ], },
+			show: { resource: [ 'connection' ], },
 		},
 		options: [
 
-			{
-				name: 'Search',
-				value: 'SearchServices',
-				description: 'Search for a service',
-				action: 'Search for a service',
-			},
-
-			//methods.GetCustomerServices.operation,
+			methods.AddConnection.operation,
+			methods.DisconnectCarrierConnection.operation,
+			methods.DisconnectCarrierConnectionWithDisconnectionReason.operation,
 
 		],
 
-		default: 'SearchServices',
+		default: '',
 
 	},
 
-	//...SearchServices.description,
-	//...methods.GetCustomerServices.properties,
+	...methods.AddConnection.properties,
+	...methods.DisconnectCarrierConnection.properties,
+	...methods.DisconnectCarrierConnectionWithDisconnectionReason.properties,
 
 ];

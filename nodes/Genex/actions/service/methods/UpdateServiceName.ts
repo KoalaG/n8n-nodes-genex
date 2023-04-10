@@ -3,21 +3,21 @@ import type { IExecuteFunctions } from 'n8n-core';
 import type { INodeExecutionData, INodePropertyOptions } from 'n8n-workflow';
 import * as transport from '../../../transport';
 
-import type { CustomerProperties } from '../../Interfaces';
+import type { ServiceProperties } from '../../Interfaces';
 
 const ENDPOINT = 'Customer';
 const SUBENDPOINT = 'Service';
-const METHOD = 'GetExternalSystemReference';
+const METHOD = 'UpdateServiceName';
 
 export const operation: INodePropertyOptions = {
-	name: 'Get External System Reference',
+	name: 'Update Service Name',
 	value: METHOD,
-	description:
-		'This web method is used to retrieve external system’s reference ID for a Genex customer. This reference ID is the link between the two systems (Genex and third party system) and used for any further interaction between the systems. The current set of external systems are: Ezidebit and Xero.',
-	action: 'Get external system reference',
+	description: 'This web method is used to update the Name field associated with a service',
+	action: 'Update service name',
 };
 
-export const properties: CustomerProperties = [
+export const properties: ServiceProperties = [
+
 	{
 		displayName: 'Customer Number',
 		name: 'CustomerNumber',
@@ -27,15 +27,27 @@ export const properties: CustomerProperties = [
 		description: 'Must be a valid Genex customer number',
 		displayOptions: { show: { operation: [ METHOD ], }, },
 	},
+
 	{
-		displayName: 'System',
-		name: 'System',
+		displayName: 'Service Number',
+		name: 'ServiceNumber',
 		type: 'string',
 		default: '',
 		required: true,
-		description: 'Identifier for the system. These values are case sensitive and should be entered as supplied.',
+		description: 'Genex service number (Service Nofield in Service Details section of Services screen) associated to the Customer. Service must exist in Genex and should not be released.',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	},
+
+	{
+		displayName: 'Name',
+		name: 'Name',
+		type: 'string',
+		default: '',
+		required: true,
+		description: 'Value to be updated into the Name field',
 		displayOptions: { show: { operation: [ METHOD ], }, },
 	}
+
 ];
 
 export async function execute(
@@ -45,7 +57,8 @@ export async function execute(
 
 	const responseData = await transport.apiRequest.call(this, ENDPOINT, SUBENDPOINT, METHOD, {
 		CustomerNumber: this.getNodeParameter('CustomerNumber', index),
-		System: this.getNodeParameter('System', index),
+		ServiceNumber: this.getNodeParameter('ServiceNumber', index),
+		TelstraAccNo: this.getNodeParameter('TelstraAccNo', index),
 	});
 
 	return this.helpers.returnJsonArray(responseData);

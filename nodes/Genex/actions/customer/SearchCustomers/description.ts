@@ -13,5 +13,18 @@ export const SearchCustomersDescription: CustomerProperties = [
 			},
 		},
 		default: ''
+	},
+
+	{
+		displayName: 'Include Cancelled',
+		name: 'IncludeCancelled',
+		type: 'boolean',
+		displayOptions: {
+			show: {
+				resource: [ 'customer' ],
+				operation: [ 'SearchCustomers' ],
+			},
+		},
+		default: false
 	}
 ];

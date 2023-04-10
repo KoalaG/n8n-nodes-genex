@@ -19,26 +19,14 @@ export const descriptions: INodeProperties[] = [
 		},
 		options: [
 
-			{
-				name: 'Search',
-				value: 'SearchCustomers',
-				description: 'Search for a customer',
-				action: 'Search for a customer',
-			},
-
-			{
-				name: 'Get',
-				value: 'GetCustomerDetails',
-				description: 'Add a user to a channel',
-				action: 'Add a user to a channel',
-			},
-
+			SearchCustomers.operation,
+			GetCustomerDetails.operation,
 			GetExternalSystemReference.operation,
 			SetExternalSystemReference.operation,
 
 		],
 
-		default: 'SearchCustomers',
+		default: '',
 
 	},
 

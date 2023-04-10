@@ -1,5 +1,6 @@
 
-import { AddressType, CompanyType, ConnectionBaseType, ContactAddressType, CreditDetailsEmploymentType, CustomerAccountDetailType, CustomerAuthorisationType, CustomerBankAccountType, CustomerBillOptionsType, CustomerCreditCardType, CustomerCreditDetailsType, CustomerFlagType, CustomerMarketingType, CustomerReferralType, CustomerTeleMarketingType, CustomerType, DeliveryMethodType, PrimaryContactType, ServiceType, SystemReferenceType } from '../actions/Interfaces';
+import { AccountStatusType, AddressType, CarrierType, CompanyType, ConnectionBaseType, ContactAddressType, CreditDetailsEmploymentType, CustomerAccountDetailType, CustomerAuthorisationType, CustomerBankAccountType, CustomerBillOptionsType, CustomerCreditCardType, CustomerCreditDetailsType, CustomerFlagType, CustomerMarketingType, CustomerReferralType, CustomerTeleMarketingType, CustomerType, DeliveryMethodType, PrimaryContactType, ServiceDisconnectionReasonsType, ServiceType, SystemReferenceType } from '../actions/Interfaces';
+import { GenexAccountStatusDataType, GenexAccountStatusType, GenexCarrierDataType, GenexCarrierType, GenexCustomerListType, GenexCustomerType, GenexCustomerTypeDataType, GenexServiceDisconnectionReasonDataType, GenexServiceDisconnectionReasonType, GenexServiceListType, GenexTextType } from './interfaces';
 
 
 export function parseGeneric(input: any ) : any {
@@ -100,15 +101,11 @@ export function parseConnectionList(
 
 }
 
-export function parseServiceList(rawServiceList: any | any[] )
+export function parseServiceList(response: GenexServiceListType )
 : ServiceType[]
 {
 
-	if (rawServiceList && rawServiceList.ServiceList && rawServiceList.ServiceList.Service) {
-		rawServiceList = rawServiceList.ServiceList.Service;
-	}
-
-	const serviceList = Array.isArray(rawServiceList) ? rawServiceList : [ rawServiceList ];
+	const serviceList = Array.isArray(response.Service) ? response.Service : [ response.Service ];
 
 	return serviceList.filter((e) => e).map((service: any) : ServiceType => ({
 		ServiceNumber:			parseValue<string>(service.ServiceNumber),
@@ -300,7 +297,7 @@ export function parseCustomerCreditDetails(rawCreditDetails: any) : CustomerCred
 	}
 }
 
-export function parseCustomer(rawCustomer: any) : CustomerType {
+export function parseCustomerData(rawCustomer: GenexCustomerType) : CustomerType {
 	return {
 		LinkedCustomerNo:				parseValue<number>(rawCustomer.LinkedCustomerNo, Number),
 		GroupNo:								parseValue<number>(rawCustomer.GroupNo, Number),
@@ -337,10 +334,10 @@ export function parseCustomer(rawCustomer: any) : CustomerType {
 	}
 }
 
-export function parseCustomerData(rawCustomerList: any | any[]) : CustomerType[] {
+export function parseCustomerList(rawCustomerList: GenexCustomerListType) : CustomerType[] {
 	if (!rawCustomerList) return [];
-	if (!Array.isArray(rawCustomerList)) rawCustomerList = [rawCustomerList];
-	return rawCustomerList.map(parseCustomer);
+	if (!Array.isArray(rawCustomerList.Customer)) rawCustomerList.Customer = [ rawCustomerList.Customer ];
+	return rawCustomerList.Customer.map(parseCustomerData);
 }
 
 export function parseSystemReference(rawSystemReference: any)
@@ -351,4 +348,71 @@ export function parseSystemReference(rawSystemReference: any)
 		ExternalSystem: parseValue<string>(rawSystemReference.ExternalSystem),
 		ExternalReference: parseValue<string>(rawSystemReference.ExternalReference),
 	}
+}
+
+export function parseServiceDisconnectionReasonsData(
+	GenexResponse: GenexServiceDisconnectionReasonDataType
+) : ServiceDisconnectionReasonsType[] {
+
+	if(!GenexResponse) return [];
+
+	if(!Array.isArray(GenexResponse.ServiceDisconnectionReason)) {
+		GenexResponse.ServiceDisconnectionReason = [GenexResponse.ServiceDisconnectionReason];
+	}
+
+	return GenexResponse.ServiceDisconnectionReason
+		.map((ServiceDisconnectionReason: GenexServiceDisconnectionReasonType) => ({
+			Code: parseValue<string>(ServiceDisconnectionReason.Code),
+			Reason: parseValue<string>(ServiceDisconnectionReason.Reason),
+		}));
+
+}
+
+export function _parseCodeDescriptionData<T>(
+	GenexResponse: { [key: string]: T | T[]}
+) : { Code: string, Description: string }[] {
+
+	const returnData: { Code: string, Description: string }[] = [];
+
+
+	Object.keys(GenexResponse).forEach((key: string) => {
+
+		const raw = GenexResponse[key];
+		const list: T[] = Array.isArray(raw) ? raw : [raw];
+
+		(list as { Code: GenexTextType, Description: GenexTextType }[]).forEach((item) => {
+			if (item.Code && item.Description) {
+				returnData.push({
+					Code: parseValue<string>(item.Code),
+					Description: parseValue<string>(item.Description),
+				})
+			}
+		});
+
+	});
+
+	return returnData;
+
+}
+
+export const parseAccountStatusData = _parseCodeDescriptionData<GenexAccountStatusDataType>;
+export const parseCustomerTypeData = _parseCodeDescriptionData;
+
+
+export function parseCarrierData(
+	GenexResponse: GenexCarrierDataType
+) : CarrierType[] {
+
+	if(!GenexResponse) return [];
+
+	if(!Array.isArray(GenexResponse.Carrier)) {
+		GenexResponse.Carrier = [GenexResponse.Carrier];
+	}
+
+	return GenexResponse.Carrier
+		.map((Carrier: GenexCarrierType) => ({
+			Code: parseValue<string>(Carrier.Code),
+			Name: parseValue<string>(Carrier.Name),
+		}));
+
 }
