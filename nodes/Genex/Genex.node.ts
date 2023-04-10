@@ -7,7 +7,7 @@ import * as connection from './actions/connection';
 import * as customer from './actions/customer';
 import * as service from './actions/service';
 import { router } from './actions/router';
-import { getServiceDisconnectionReasons, getCarriers } from './methods/loadOptions';
+import * as loadOptions from './methods/loadOptions';
 
 export class Genex implements INodeType {
 
@@ -54,10 +54,7 @@ export class Genex implements INodeType {
 	}
 
 	methods = {
-		loadOptions: {
-			getServiceDisconnectionReasons,
-			getCarriers,
-		}
+		loadOptions
 	};
 
 	execute(this: IExecuteFunctions): Promise<INodeExecutionData[][] | NodeExecutionWithMetadata[][] | null> {

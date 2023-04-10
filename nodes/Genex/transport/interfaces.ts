@@ -70,6 +70,15 @@ export type GenexCarrierType = {
 	Name: GenexTextType,
 }
 
+export type GenexCycleDataType = {
+	Cycle: GenexCycleType | GenexCycleType[]
+}
+
+export type GenexCycleType = {
+	CycleNo: GenexNumberType,
+	CycleName: GenexTextType,
+}
+
 export type GenexCustomerListType = {
 	Customer: GenexCustomerType | GenexCustomerType[]
 }
@@ -138,3 +147,51 @@ export type GenexServiceType = {
 	SequenceNumber: GenexNumberType,
 	ReleasedDate: GenexDateType,
 }
+
+export type GenexCountryTypeDataType = {
+	CountryType: GenexCountryTypeType | GenexCountryTypeType[]
+}
+
+export type GenexCountryTypeType = {
+	CountryId: GenexTextType,
+	CountryName: GenexTextType,
+}
+
+export type GenexAddressTypeDataType = {
+	AddressType: GenexAddressTypeType | GenexAddressTypeType[]
+}
+
+export type GenexAddressTypeType = {
+	Code: GenexTextType,
+	Description: GenexTextType,
+	Type: GenexTextType,
+}
+
+export type GenexStreetTypeDataType = {
+	StreetType: GenexStreetTypeType | GenexStreetTypeType[]
+}
+
+export type GenexStreetTypeType = {
+	Type: GenexTextType,
+	Description: GenexTextType,
+}
+
+export type GenexStateTypeDataType = {
+	StateType: GenexStateTypeType | GenexStateTypeType[]
+}
+
+export type GenexStateTypeType = {
+	CountryId: GenexTextType,
+	State: GenexTextType,
+	StateName: GenexTextType,
+}
+
+export type GenexStreetTypeSuffixDataType = {
+	StreetTypeSuffix: GenexStreetTypeSuffixType | GenexStreetTypeSuffixType[]
+}
+
+export type GenexStreetTypeSuffixType = {
+	Suffix: GenexTextType,
+	Description: GenexTextType,
+}
+

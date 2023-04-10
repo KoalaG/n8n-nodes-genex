@@ -65,7 +65,7 @@ export type AddressType = {
 	Suburb?: String,
 	State?: String,
 	Postcode?: string,
-	Type?: string,
+	Type?: AddressTypeType["Code"],
 	TypeNumber: number,
 	TypeSuffix?: string,
 	PropertyName?: string,
@@ -292,4 +292,36 @@ export type AccountStatusType = {
 export type CarrierType = {
 	Code: string,
 	Name: string,
+}
+
+export type CycleType = {
+	CycleNo: number,
+	CycleName: string,
+}
+
+export type CountryType = {
+	CountryId: string,
+	CountryName: string,
+}
+
+export type AddressTypeType = {
+	Code: string,
+	Description: string,
+	Type: string,
+}
+
+export type StreetTypeType = {
+	Type: string,
+	Description: string,
+}
+
+export type StateTypeType = {
+	CountryId: string,
+	State: string,
+	StateName: string,
+}
+
+export type StreetTypeSuffixType = {
+	Suffix: string,
+	Description: string,
 }

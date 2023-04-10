@@ -12,7 +12,9 @@ export * as UpdateServiceExternalReference						from './UpdateServiceExternalRef
 export * as UpdateServiceDivision											from './todo.UpdateServiceDivision'
 export * as UpdateServiceDepartment 									from './todo.UpdateServiceDepartment'
 export * as UpdateServiceContract 										from './todo.UpdateServiceContract'
-export * as UpdateServiceAddress 											from './todo.UpdateServiceAddress'
+
+export * as UpdateServiceAddress 											from './UpdateServiceAddress'
+
 export * as SetServiceDeclaredDate 										from './todo.SetServiceDeclaredDate'
 export * as ReleaseServiceWithDisconnectionReason			from './todo.ReleaseServiceWithDisconnectionReason'
 export * as ReconnectService 													from './todo.ReconnectService'

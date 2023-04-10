@@ -1,6 +1,6 @@
 
-import { AccountStatusType, AddressType, CarrierType, CompanyType, ConnectionBaseType, ContactAddressType, CreditDetailsEmploymentType, CustomerAccountDetailType, CustomerAuthorisationType, CustomerBankAccountType, CustomerBillOptionsType, CustomerCreditCardType, CustomerCreditDetailsType, CustomerFlagType, CustomerMarketingType, CustomerReferralType, CustomerTeleMarketingType, CustomerType, DeliveryMethodType, PrimaryContactType, ServiceDisconnectionReasonsType, ServiceType, SystemReferenceType } from '../actions/Interfaces';
-import { GenexAccountStatusDataType, GenexAccountStatusType, GenexCarrierDataType, GenexCarrierType, GenexCustomerListType, GenexCustomerType, GenexCustomerTypeDataType, GenexServiceDisconnectionReasonDataType, GenexServiceDisconnectionReasonType, GenexServiceListType, GenexTextType } from './interfaces';
+import { AddressType, AddressTypeType, CarrierType, CompanyType, ConnectionBaseType, ContactAddressType, CountryType, CreditDetailsEmploymentType, CustomerAccountDetailType, CustomerAuthorisationType, CustomerBankAccountType, CustomerBillOptionsType, CustomerCreditCardType, CustomerCreditDetailsType, CustomerFlagType, CustomerMarketingType, CustomerReferralType, CustomerTeleMarketingType, CustomerType, CycleType, DeliveryMethodType, PrimaryContactType, ServiceDisconnectionReasonsType, ServiceType, StateTypeType, StreetTypeSuffixType, StreetTypeType, SystemReferenceType } from '../actions/Interfaces';
+import { GenexAccountStatusDataType, GenexAddressTypeDataType, GenexCarrierDataType, GenexCarrierType, GenexCountryTypeDataType, GenexCustomerListType, GenexCustomerType, GenexCycleDataType, GenexServiceDisconnectionReasonDataType, GenexServiceDisconnectionReasonType, GenexServiceListType, GenexStateTypeDataType, GenexStreetTypeDataType, GenexStreetTypeSuffixDataType, GenexTextType } from './interfaces';
 
 
 export function parseGeneric(input: any ) : any {
@@ -415,4 +415,63 @@ export function parseCarrierData(
 			Name: parseValue<string>(Carrier.Name),
 		}));
 
+}
+
+export function parseCycleData(data: GenexCycleDataType) : CycleType[] {
+
+	if(!data) return [];
+
+	data.Cycle = Array.isArray(data.Cycle) ? data.Cycle : [data.Cycle];
+
+	return data.Cycle
+		.map((Cycle) => ({
+			CycleNo: parseValue<number>(Cycle.CycleNo),
+			CycleName: parseValue<string>(Cycle.CycleName),
+		}));
+
+}
+
+export function parseCountryTypeData({CountryType: list}: GenexCountryTypeDataType) : CountryType[] {
+	list = Array.isArray(list) ? list : [list];
+	return list.map((item) => ({
+		CountryId: parseValue<string>(item.CountryId),
+		CountryName: parseValue<string>(item.CountryName),
+	}));
+}
+
+export function parseAddressTypeData({AddressType: list}: GenexAddressTypeDataType) : AddressTypeType[] {
+	list = Array.isArray(list) ? list : [list];
+	return list.map((item) => ({
+		Code: parseValue<string>(item.Code),
+		Description: parseValue<string>(item.Description),
+		Type: parseValue<string>(item.Type),
+	}));
+}
+
+// GetStreetTypes
+export function parseStreetTypeData({StreetType: list}: GenexStreetTypeDataType) : StreetTypeType[] {
+	list = Array.isArray(list) ? list : [list];
+	return list.map((item) => ({
+		Type: parseValue<string>(item.Type),
+		Description: parseValue<string>(item.Description),
+	}));
+}
+
+// GetStreetTypeSuffixes
+export function parseStreetTypeSuffixData({StreetTypeSuffix: list}: GenexStreetTypeSuffixDataType) : StreetTypeSuffixType[] {
+	list = Array.isArray(list) ? list : [list];
+	return list.map((item) => ({
+		Suffix: parseValue<string>(item.Suffix),
+		Description: parseValue<string>(item.Description),
+	}));
+}
+
+// GetStateTypes
+export function parseStateTypeData({StateType: list}: GenexStateTypeDataType) : StateTypeType[] {
+	list = Array.isArray(list) ? list : [list];
+	return list.map((item) => ({
+		CountryId: parseValue<string>(item.CountryId),
+		State: parseValue<string>(item.State),
+		StateName: parseValue<string>(item.StateName),
+	}));
 }

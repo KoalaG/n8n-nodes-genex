@@ -136,3 +136,166 @@ export function IncludeReleased(METHOD: string) : INodeProperties {
 		displayOptions: { show: { operation: [ METHOD ], }, },
 	}
 }
+
+export function Country(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'Country Name or ID',
+		name: 'Country',
+		type: 'options',
+		typeOptions: {
+			loadOptionsMethod: 'getCountryTypes',
+		},
+		default: '',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function Type(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'Address Type Name or ID',
+		name: 'Type',
+		type: 'options',
+		typeOptions: {
+			loadOptionsMethod: 'getAddressTypes',
+		},
+		default: '',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function TypeNumber(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'Address Type Number',
+		name: 'TypeNumber',
+		type: 'number',
+		default: null,
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function TypeSuffix(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'Address Type Suffix',
+		name: 'TypeSuffix',
+		type: 'string',
+		default: '',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function PropertyName(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'Property Name',
+		name: 'PropertyName',
+		type: 'string',
+		default: '',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function StreetNumberStart(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'Street Number Start',
+		name: 'StreetNumberStart',
+		type: 'number',
+		default: null,
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function StreetNumberEnd(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'Street Number End',
+		name: 'StreetNumberEnd',
+		type: "number",
+		default: '',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function StreetNumberSuffix(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'Street Number Suffix',
+		name: 'StreetNumberSuffix',
+		type: 'string',
+		default: '',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function StreetName(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'Street Name',
+		name: 'StreetName',
+		type: 'string',
+		default: '',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function StreetType(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'Street Type Name or ID',
+		name: 'StreetType',
+		type: 'options',
+		typeOptions: {
+			loadOptionsMethod: 'getStreetTypes',
+		},
+		default: '',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function StreetTypeSuffix(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'Street Type Suffix Name or ID',
+		name: 'StreetTypeSuffix',
+		type: 'options',
+		typeOptions: {
+			loadOptionsMethod: 'getStreetTypeSuffixes',
+		},
+		default: '',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function Suburb(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'Suburb',
+		name: 'Suburb',
+		type: 'string',
+		default: '',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function State(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'State Name or ID',
+		name: 'State',
+		type: 'options',
+		typeOptions: {
+			loadOptionsMethod: 'getStateTypes',
+		},
+		default: '',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+
+export function PostCode(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'Post Code',
+		name: 'PostCode',
+		type: 'string',
+		default: '',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+
