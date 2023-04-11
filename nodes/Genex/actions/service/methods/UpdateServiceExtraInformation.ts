@@ -13,7 +13,6 @@ const METHOD = 'UpdateServiceExtraInformation';
 export const operation: INodePropertyOptions = {
 	name: 'Update Service Extra Information',
 	value: METHOD,
-	description: 'This web method is used to update the Extra Informationfield associated with a service.This is a generic field that can be used to save notes or additional service details such as IMEI number etc',
 	action: 'Update service extra information',
 };
 
@@ -31,7 +30,7 @@ export async function execute(
 	const responseData = await transport.apiRequest.call(this, ENDPOINT, SUBENDPOINT, METHOD, {
 		CustomerNumber: this.getNodeParameter('CustomerNumber', index),
 		ServiceNumber: this.getNodeParameter('ServiceNumber', index),
-		ExtraInformation: this.getNodeParameter('ExtraInformation', index),
+		ExtraInformation: this.getNodeParameter('ExtraInformation', index) || '',
 	});
 
 	return this.helpers.returnJsonArray(responseData);

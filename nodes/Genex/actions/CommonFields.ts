@@ -108,8 +108,18 @@ export function ExtraInformation(METHOD: string) : INodeProperties {
 		name: 'ExtraInformation',
 		type: 'string',
 		default: '',
-		required: true,
 		description: 'Value to be updated into the Extra Information field',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function TelstraAccNo(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'External Reference',
+		name: 'TelstraAccNo',
+		type: 'string',
+		default: '',
+		description: 'Value to be updated into the External Account # field',
 		displayOptions: { show: { operation: [ METHOD ], }, },
 	}
 }

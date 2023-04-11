@@ -2,6 +2,7 @@
 import type { IExecuteFunctions } from 'n8n-core';
 import type { INodeExecutionData, INodePropertyOptions } from 'n8n-workflow';
 import * as transport from '../../../transport';
+import { CustomerNumber, DisconnectionDate, SendDisconnectionRequest, ServiceNumber } from '../../CommonFields';
 
 import type { ServiceProperties } from '../../Interfaces';
 
@@ -18,24 +19,8 @@ export const operation: INodePropertyOptions = {
 };
 
 export const properties: ServiceProperties = [
-	{
-		displayName: 'Customer Number',
-		name: 'CustomerNumber',
-		type: 'number',
-		default: 0,
-		required: true,
-		description: 'Must be a valid Genex customer number',
-		displayOptions: { show: { operation: [ METHOD ], }, },
-	},
-	{
-		displayName: 'Service Number',
-		name: 'ServiceNumber',
-		type: 'string',
-		default: '',
-		required: true,
-		description: 'Genex service number (Service Nofield in Service Details section of Services screen) associated to the Customer. Service must exist in Genex and should not be released.',
-		displayOptions: { show: { operation: [ METHOD ], }, },
-	},
+	CustomerNumber(METHOD),
+	ServiceNumber(METHOD),
 	{
 		displayName: 'Release Date',
 		name: 'ReleaseDate',
@@ -45,25 +30,8 @@ export const properties: ServiceProperties = [
 		description: 'Date service to be released',
 		displayOptions: { show: { operation: [ METHOD ], }, },
 	},
-	{
-		displayName: 'Disconnection Date',
-		name: 'DisconnectionDate',
-		type: 'dateTime',
-		default: '',
-		required: true,
-		description: 'Date service to be disconnected',
-		displayOptions: { show: { operation: [ METHOD ], }, },
-	},
-	{
-		displayName: 'Send Disconnection Request',
-		name: 'SendDisconnectionRequest',
-		type: 'boolean',
-		default: false,
-		required: true,
-		description: 'Whether Genex should send disconnection request, in provisioning file, to carrier? Only applicable for carriers where provisioning supported through Genex',
-		displayOptions: { show: { operation: [ METHOD ], }, },
-	},
-
+	DisconnectionDate(METHOD),
+	SendDisconnectionRequest(METHOD),
 ];
 
 export async function execute(
@@ -73,7 +41,10 @@ export async function execute(
 
 	const responseData = await transport.apiRequest.call(this, ENDPOINT, SUBENDPOINT, METHOD, {
 		CustomerNumber: this.getNodeParameter('CustomerNumber', index),
-		System: this.getNodeParameter('System', index),
+		ServiceNumber: this.getNodeParameter('ServiceNumber', index),
+		ReleaseDate: this.getNodeParameter('ReleaseDate', index),
+		DisconnectionDate: this.getNodeParameter('DisconnectionDate', index),
+		SendDisconnectionRequest: this.getNodeParameter('SendDisconnectionRequest', index),
 	});
 
 	return this.helpers.returnJsonArray(responseData);
