@@ -210,7 +210,7 @@ export function StreetNumberEnd(METHOD: string) : INodeProperties {
 		displayName: 'Street Number End',
 		name: 'StreetNumberEnd',
 		type: "number",
-		default: '',
+		default: null,
 		displayOptions: { show: { operation: [ METHOD ], }, },
 	}
 }
@@ -288,10 +288,10 @@ export function State(METHOD: string) : INodeProperties {
 }
 
 
-export function PostCode(METHOD: string) : INodeProperties {
+export function Postcode(METHOD: string) : INodeProperties {
 	return {
-		displayName: 'Post Code',
-		name: 'PostCode',
+		displayName: 'Postcode',
+		name: 'Postcode',
 		type: 'string',
 		default: '',
 		displayOptions: { show: { operation: [ METHOD ], }, },
