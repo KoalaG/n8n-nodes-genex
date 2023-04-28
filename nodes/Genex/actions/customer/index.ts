@@ -1,11 +1,7 @@
-import * as GetCustomerDetails from './GetCustomerDetails';
-import * as SearchCustomers from './SearchCustomers';
-import * as GetExternalSystemReference from './methods/GetExternalSystemReference';
-import * as SetExternalSystemReference from './methods/SetExternalSystemReference';
-
 import type { INodeProperties } from 'n8n-workflow';
 
-export { GetCustomerDetails, SearchCustomers, GetExternalSystemReference, SetExternalSystemReference };
+import * as methods from './methods';
+export { methods };
 
 export const descriptions: INodeProperties[] = [
 
@@ -19,10 +15,11 @@ export const descriptions: INodeProperties[] = [
 		},
 		options: [
 
-			SearchCustomers.operation,
-			GetCustomerDetails.operation,
-			GetExternalSystemReference.operation,
-			SetExternalSystemReference.operation,
+			methods.SearchCustomers.operation,
+			methods.GetCustomerDetails.operation,
+			methods.GetExternalSystemReference.operation,
+			methods.SetExternalSystemReference.operation,
+			methods.UpdateAccountDetails.operation,
 
 		],
 
@@ -30,9 +27,10 @@ export const descriptions: INodeProperties[] = [
 
 	},
 
-	...SearchCustomers.description,
-	...GetCustomerDetails.description,
-	...GetExternalSystemReference.properties,
-	...SetExternalSystemReference.properties,
+	...methods.SearchCustomers.description,
+	...methods.GetCustomerDetails.description,
+	...methods.GetExternalSystemReference.properties,
+	...methods.SetExternalSystemReference.properties,
+	...methods.UpdateAccountDetails.properties,
 
 ];

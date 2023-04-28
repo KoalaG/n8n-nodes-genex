@@ -37,7 +37,7 @@ export async function router(this: IExecuteFunctions): Promise<INodeExecutionDat
 			//} else
 
 			if (genex.resource === 'customer') {
-				responseData = await customer[genex.operation].execute.call(this, i);
+				responseData = await customer.methods[genex.operation].execute.call(this, i);
 			} else
 
 			//if (genex.resource === 'note') {
@@ -65,7 +65,7 @@ export async function router(this: IExecuteFunctions): Promise<INodeExecutionDat
 			operationResult.push(...executionData);
 		} catch (err) {
 			if (this.continueOnFail()) {
-				operationResult.push({ json: this.getInputData(i)[0].json, error: err });
+				operationResult.push({ json: this.getInputData(i)[0]?.json || undefined, error: err });
 			} else {
 				if (err.context) err.context.itemIndex = i;
 				throw err;

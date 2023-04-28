@@ -12,6 +12,12 @@ export type GenexAPIResponse = {
 export interface BaseResultType {
 	ResponseStatusCode: GenexTextType,
 	ResponseStatusDescription: GenexTextType,
+	ValidationResponseData?: {
+		ValidationResponse: {
+			Key: GenexTextType,
+			Message: GenexTextType,
+		}[]
+	}
 }
 
 export type GenexResultType =

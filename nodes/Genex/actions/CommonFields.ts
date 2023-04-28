@@ -6,7 +6,7 @@ export function CustomerNumber(METHOD: string) : INodeProperties {
 		displayName: 'Customer Number',
 		name: 'CustomerNumber',
 		type: 'number',
-		default: 0,
+		default: null,
 		required: true,
 		description: 'Must be a valid Genex customer number',
 		displayOptions: { show: { operation: [ METHOD ], }, },
