@@ -1,9 +1,10 @@
 import type { IExecuteFunctions, IHookFunctions, ILoadOptionsFunctions } from 'n8n-core';
-import * as parseFunctions from './parseFunctions'
+import * as parseFunctions from './parseFunctions';
+import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import type {
 	IDataObject,
-	IHttpRequestOptions,
+	//IHttpRequestOptions,
 } from 'n8n-workflow';
 
 import * as xmljs from 'xml-js';
@@ -46,9 +47,9 @@ export async function apiRequest(
 
 	const soapXML = xmljs.js2xml(soapJS, {compact: true, spaces: 4});
 
-	const options: IHttpRequestOptions = {
-		method: 'POST',
-		body: soapXML,
+	const options: AxiosRequestConfig = {
+		method: 'post',
+		data: soapXML,
 		url: `${credentials.baseUrl}/${endpoint}${subEndpoint}.asmx`,
 		headers: {
 			'SOAPAction': `http://genexapi.billing.com.au/${endpoint}/${method}`,
@@ -56,13 +57,18 @@ export async function apiRequest(
 		}
 	};
 
-	let rawData: any = null;
+	let response: AxiosResponse = null as unknown as AxiosResponse;
 	let jsData: GenexAPIResponse = null;
 
 	try {
 
-		rawData = await this.helpers.httpRequest.call(this, options);
-		jsData = xmljs.xml2js(rawData, {compact: true}) as GenexAPIResponse;
+		// make request using axios
+		console.log("Calling Axios", options);
+		response = await Axios.request(options);
+		console.log("Response", response);
+
+		//rawData = await	this.helpers.httpRequest.call(this, options);
+		jsData = xmljs.xml2js(response.data, {compact: true}) as GenexAPIResponse;
 
 		if (!jsData) {
 			throw new Error('No response data');
@@ -93,7 +99,7 @@ export async function apiRequest(
 
 	} catch (err) {
 		console.log('DEBUG: SOAP REQUEST:', soapXML);
-		console.log('DEBUG: SOAP RESPONSE:', rawData);
+		console.log('DEBUG: SOAP RESPONSE:', response);
 		console.log('DEBUG: JSON RESPONSE:', jsData);
 		console.log('DEBUG: JSON SOAP BODY', jsData ? jsData['soap:Envelope']['soap:Body'] : null);
 		console.log('DEBUG: JSON METHOD RESULT', jsData ? jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`] : null);
