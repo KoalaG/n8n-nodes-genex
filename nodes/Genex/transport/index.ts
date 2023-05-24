@@ -64,9 +64,7 @@ export async function apiRequest(
 	try {
 
 		// make request using axios
-		console.log("Calling Axios", options);
 		response = await Axios.request(options);
-		console.log("Response", response);
 
 		//rawData = await	this.helpers.httpRequest.call(this, options);
 		jsData = xmljs.xml2js(response.data, {compact: true}) as GenexAPIResponse;
