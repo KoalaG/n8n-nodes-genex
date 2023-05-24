@@ -66,20 +66,21 @@ export type AddressType = {
 	State?: String,
 	Postcode?: string,
 	Type?: AddressTypeType["Code"],
-	TypeNumber: number,
+	TypeNumber?: number,
 	TypeSuffix?: string,
 	PropertyName?: string,
 	StreetName?: string,
-	StreetNumberEnd: number,
-	StreetNumberStart: number,
+	StreetNumberEnd?: number,
+	StreetNumberStart?: number,
 	StreetNumberSuffix?: string,
 	StreetType?: string,
 	StreetTypeSuffix?: string,
 }
 
 export type ContactAddressType = AddressType & {
-	Country: string,
+	Country?: string,
 }
+export type ServiceAddressType = AddressType
 
 export type CompanyType = {
 	Name: string,

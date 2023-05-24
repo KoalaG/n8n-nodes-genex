@@ -2,9 +2,10 @@ import type { IExecuteFunctions, IHookFunctions, ILoadOptionsFunctions } from 'n
 import * as parseFunctions from './parseFunctions';
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import type {
+import {
 	IDataObject,
 	//IHttpRequestOptions,
+	NodeApiError,
 } from 'n8n-workflow';
 
 import * as xmljs from 'xml-js';
@@ -74,9 +75,41 @@ export async function apiRequest(
 			throw new Error('No response data');
 		}
 
+		// Throw Validation Error
+		if (
+			jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`]['ResponseStatusCode']['_text'] == '204'
+		) {
+			const validationResponseData = jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`]['ValidationResponseData'];
+			if (validationResponseData) {
+				throw new NodeApiError(
+					this.getNode(),
+					{
+						validationErrors: validationResponseData['ValidationResponse'].map(
+							(vr) => ({ Field: vr['Key']['_text'], Message: vr['Message']['_text']})
+						),
+						parameters: parameters,
+						XML: xmljs.js2xml(parameters, {compact: true, spaces: 4})
+					},
+					{
+						message: 'Validation Error'
+					}
+				);
+			}
+		}
+
 		// Make sure response status is OK
-		if (jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`]['ResponseStatusCode']['_text'] !== '200') {
-			throw new Error(jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`]['ResponseStatusDescription']['_text']);
+		if (jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`]['ResponseStatusCode']['_text'] != '200') {
+			throw new NodeApiError(
+				this.getNode(),
+				{
+					...jsData['soap:Envelope']['soap:Body'],
+					parameters: parameters,
+					XML: xmljs.js2xml(parameters, {compact: true, spaces: 4})
+				},
+				{
+					message: jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`]['ResponseStatusDescription']['_text'],
+				}
+			);
 		}
 
 		const methodResult = jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`];
@@ -94,10 +127,41 @@ export async function apiRequest(
 				throw new Error(`No parse function found for ${responseType}`);
 			}
 		} else {
-			return {}
+			return {
+				ResponseStatusCode: methodResult.ResponseStatusCode._text,
+				ResponseStatusDescription: methodResult.ResponseStatusDescription._text,
+				Input: parameters
+			}
 		}
 
 	} catch (err) {
+
+		if (err.isAxiosError) {
+
+			if (err.response.status == 500) {
+				const jsData = xmljs.xml2js(err.response.data, {compact: true}) as any;
+				console.log(jsData['soap:Envelope']['soap:Body']['soap:Fault']);
+				const soapErr: any = new NodeApiError(
+					this.getNode(),
+					{
+						...jsData['soap:Envelope']['soap:Body']['soap:Fault'],
+						parameters: parameters,
+						XML: xmljs.js2xml(parameters, {compact: true, spaces: 4})
+					},
+					{
+						message: jsData['soap:Envelope']['soap:Body']['soap:Fault']['faultstring']['_text'],
+						description: jsData['soap:Envelope']['soap:Body']['soap:Fault']['detail']['_text'],
+					}
+				);
+				throw soapErr;
+			}
+
+			console.log(err.toJSON())
+			throw err;
+
+		}
+
+
 		console.log('DEBUG: SOAP REQUEST:', soapXML);
 		console.log('DEBUG: SOAP RESPONSE:', response);
 		console.log('DEBUG: JSON RESPONSE:', jsData);
@@ -105,6 +169,7 @@ export async function apiRequest(
 		console.log('DEBUG: JSON METHOD RESULT', jsData ? jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`] : null);
 		console.log(err);
 		throw err;
+
 	}
 }
 

@@ -2,6 +2,7 @@
 import type { IExecuteFunctions } from 'n8n-core';
 import type { INodeExecutionData, INodePropertyOptions } from 'n8n-workflow';
 import * as transport from '../../../transport';
+import { CustomerNumber, ServiceNumber } from '../../CommonFields';
 
 import type { ServiceProperties } from '../../Interfaces';
 
@@ -18,32 +19,14 @@ export const operation: INodePropertyOptions = {
 
 export const properties: ServiceProperties = [
 
-	{
-		displayName: 'Customer Number',
-		name: 'CustomerNumber',
-		type: 'number',
-		default: 0,
-		required: true,
-		description: 'Must be a valid Genex customer number',
-		displayOptions: { show: { operation: [ METHOD ], }, },
-	},
-
-	{
-		displayName: 'Service Number',
-		name: 'ServiceNumber',
-		type: 'string',
-		default: '',
-		required: true,
-		description: 'Genex service number (Service Nofield in Service Details section of Services screen) associated to the Customer. Service must exist in Genex and should not be released.',
-		displayOptions: { show: { operation: [ METHOD ], }, },
-	},
+	CustomerNumber(METHOD),
+	ServiceNumber(METHOD),
 
 	{
 		displayName: 'Name',
 		name: 'Name',
 		type: 'string',
 		default: '',
-		required: true,
 		description: 'Value to be updated into the Name field',
 		displayOptions: { show: { operation: [ METHOD ], }, },
 	}
@@ -58,7 +41,7 @@ export async function execute(
 	const responseData = await transport.apiRequest.call(this, ENDPOINT, SUBENDPOINT, METHOD, {
 		CustomerNumber: this.getNodeParameter('CustomerNumber', index),
 		ServiceNumber: this.getNodeParameter('ServiceNumber', index),
-		TelstraAccNo: this.getNodeParameter('TelstraAccNo', index),
+		Name: this.getNodeParameter('Name', index) || '',
 	});
 
 	return this.helpers.returnJsonArray(responseData);

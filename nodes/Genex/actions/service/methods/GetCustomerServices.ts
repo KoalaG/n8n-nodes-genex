@@ -2,6 +2,7 @@
 import type { IExecuteFunctions } from 'n8n-core';
 import type { INodeExecutionData, INodePropertyOptions } from 'n8n-workflow';
 import * as transport from '../../../transport';
+import { CustomerNumber } from '../../CommonFields';
 
 import type { ServiceProperties } from '../../Interfaces';
 
@@ -12,21 +13,11 @@ const METHOD = 'GetCustomerServices';
 export const operation: INodePropertyOptions = {
 	name: 'Get Customer Services',
 	value: METHOD,
-	description:
-		'This web method is used to get a list of all services associated with a customer/account. The response lists all services (including released) on the account and all associated connections for each service.',
 	action: 'Get customer services',
 };
 
 export const properties: ServiceProperties = [
-	{
-		displayName: 'Customer Number',
-		name: 'CustomerNumber',
-		type: 'number',
-		default: 0,
-		required: true,
-		description: 'Must be a valid Genex customer number',
-		displayOptions: { show: { operation: [ METHOD ], }, },
-	}
+	CustomerNumber(METHOD)
 ];
 
 export async function execute(

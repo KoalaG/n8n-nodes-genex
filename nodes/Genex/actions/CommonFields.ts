@@ -6,7 +6,7 @@ export function CustomerNumber(METHOD: string) : INodeProperties {
 		displayName: 'Customer Number',
 		name: 'CustomerNumber',
 		type: 'number',
-		default: 0,
+		default: null,
 		required: true,
 		description: 'Must be a valid Genex customer number',
 		displayOptions: { show: { operation: [ METHOD ], }, },
@@ -108,8 +108,18 @@ export function ExtraInformation(METHOD: string) : INodeProperties {
 		name: 'ExtraInformation',
 		type: 'string',
 		default: '',
-		required: true,
 		description: 'Value to be updated into the Extra Information field',
+		displayOptions: { show: { operation: [ METHOD ], }, },
+	}
+}
+
+export function TelstraAccNo(METHOD: string) : INodeProperties {
+	return {
+		displayName: 'External Reference',
+		name: 'TelstraAccNo',
+		type: 'string',
+		default: '',
+		description: 'Value to be updated into the External Account # field',
 		displayOptions: { show: { operation: [ METHOD ], }, },
 	}
 }
@@ -210,7 +220,7 @@ export function StreetNumberEnd(METHOD: string) : INodeProperties {
 		displayName: 'Street Number End',
 		name: 'StreetNumberEnd',
 		type: "number",
-		default: '',
+		default: null,
 		displayOptions: { show: { operation: [ METHOD ], }, },
 	}
 }
@@ -288,10 +298,10 @@ export function State(METHOD: string) : INodeProperties {
 }
 
 
-export function PostCode(METHOD: string) : INodeProperties {
+export function Postcode(METHOD: string) : INodeProperties {
 	return {
-		displayName: 'Post Code',
-		name: 'PostCode',
+		displayName: 'Postcode',
+		name: 'Postcode',
 		type: 'string',
 		default: '',
 		displayOptions: { show: { operation: [ METHOD ], }, },
