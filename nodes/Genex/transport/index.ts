@@ -79,6 +79,13 @@ export async function apiRequest(
 		) {
 			const validationResponseData = jsData['soap:Envelope']['soap:Body'][`${method}Response`][`${method}Result`]['ValidationResponseData'];
 			if (validationResponseData) {
+
+				// Make sure Validation Response is an array
+				if(!Array.isArray(validationResponseData['ValidationResponse'])){
+					validationResponseData['ValidationResponse'] = [validationResponseData['ValidationResponse']];
+				}
+
+				// Throw node API error
 				throw new NodeApiError(
 					this.getNode(),
 					{
