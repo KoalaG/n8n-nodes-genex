@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-genex",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "N8N Node for conuming Genex API",
   "keywords": [
     "n8n-community-node-package"
