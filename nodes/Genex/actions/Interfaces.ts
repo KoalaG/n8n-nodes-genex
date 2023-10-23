@@ -12,7 +12,8 @@ type GenexMap = {
 	connection: any;
 	customer:
 		'SearchCustomers' | 'GetCustomerDetails' |
-		'SetExternalSystemReference' | 'GetExternalSystemReference';
+		'SetExternalSystemReference' | 'GetExternalSystemReference' |
+		'UpdateCustomerFlags';
 	note: any;
 	service:
 		'SearchServices' | 'GetCustomerServices' | 'ReleaseService'

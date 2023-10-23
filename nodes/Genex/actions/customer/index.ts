@@ -20,6 +20,7 @@ export const descriptions: INodeProperties[] = [
 			methods.GetExternalSystemReference.operation,
 			methods.SetExternalSystemReference.operation,
 			methods.UpdateAccountDetails.operation,
+			methods.UpdateCustomerFlags.operation,
 
 		],
 
@@ -32,5 +33,6 @@ export const descriptions: INodeProperties[] = [
 	...methods.GetExternalSystemReference.properties,
 	...methods.SetExternalSystemReference.properties,
 	...methods.UpdateAccountDetails.properties,
+	...methods.UpdateCustomerFlags.properties,
 
 ];
